@@ -51,8 +51,8 @@
   var timeline = [];
   var preloadimages = [];
   var stims = [];
-  var id = jsPsych.data.getURLVariable("id");
-  id = id == null ? id : jsPsych.randomization.randomID(15); // assign random id if not provided in URL
+  var jspsych_id = jsPsych.data.getURLVariable("id");
+  jspsych_id = jspsych_id == null ? jspsych_id : jsPsych.randomization.randomID(15); // assign random id if not provided in URL
   var prolificID = jsPsych.data.getURLVariable("PROLIFIC_PID");
   if(prolificID == null) {prolificID = "999";}
 
@@ -377,7 +377,7 @@
 
       /* Redirect */
       var link = redirectToLink +
-        "?jspsych_id=" + id +
+        "?jspsych_id=" + jspsych_id +
         "&cond=" + "evacond" +
         "&prolificID=" + prolificID +
         "&ColorGroup=" + groupColor +
@@ -393,11 +393,11 @@
       var database = firebase.database();
 
       // if no id provided, generate a new id
-      if (id == null) { id = jsPsych.randomization.randomID(15) };
+      if (jspsych_id == null) { jspsych_id = jsPsych.randomization.randomID(15) };
 
       /* jsPsych: add data to every trial */
       jsPsych.data.addProperties({
-        id: id,
+        jspsych_id: jspsych_id,
         prolificID: prolificID,
         groupColor: groupColor,
         USCSpairing: USCSpairing
@@ -407,7 +407,7 @@
 
       /* Send data to Firebase */
       database
-        .ref(FBdirectory + "/" + id + "/")
+        .ref(FBdirectory + "/" + jspsych_id + "/")
         .update({ dataEC })
         .then(function () {
           console.log("Data sent!");
